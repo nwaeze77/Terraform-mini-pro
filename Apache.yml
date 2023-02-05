@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  remote_user: ec2-user
+  tasks:
+  - name: update and upgrade
+    apt:
+      update_cache: yes
+      upgrade: yes
+  - name: install apache2
+    apt:
+      name: apache2
+      state: latest
+  - name: set timezone to Africa/Lagos
+    timezone:
+      name: Africa/Lagos
+  - name: print my instance private ip address
+    shell: echo "<h1>Welcome to my tech world @ $(hostname -f)</h1>" > /var/www/html/index.html
+  - name: restart apache2
+    service:
+      name: apache2
+      state: restarted
